@@ -1,0 +1,35 @@
+#include <stdlib.h>
+#include <stdio.h>
+
+// required to be declared before self-referential definition
+struct Node;
+
+struct Node {
+    int x;
+    struct Node *next;
+};
+
+struct Node* initNode( int n){
+    struct Node *head = malloc(sizeof(struct Node));
+    head->x = n;
+    head->next = NULL;
+    return head;
+}
+
+void addNode(struct Node **head, int n){
+ struct Node *NewNode = initNode( n );
+ NewNode -> next = *head;
+ *head = NewNode;
+}
+
+int main(int argc, char* argv[])
+{
+    struct Node* head = initNode(5);
+    addNode(&head,10);
+    addNode(&head,20);
+    struct Node* cur  = head;
+    do {
+	printf("Node @ %p : %i\n",(void*)cur, cur->x );
+    } while ( ( cur = cur->next ) != NULL );
+
+}
